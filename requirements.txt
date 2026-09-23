@@ -1,0 +1,5 @@
+dotenv
+web3
+sqlalchemy[asyncio]
+asyncpg
+alembic
