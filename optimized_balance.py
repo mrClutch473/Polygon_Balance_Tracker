@@ -58,11 +58,8 @@ async def main():
         )
         last_block = result.scalar_one_or_none()
 
-        balance_c_sorted = []
+        balance_c_sorted = list(balance_by_ctf)
 
-        for c in balance_by_ctf:
-            if c['net_balance'] != 0:
-                balance_c_sorted.append(c)
         print('='*50)
         print("Итоговый баланс:")
         print(f"USDC: {balance_by_usdc}")
@@ -101,6 +98,9 @@ async def main():
             accounts = [wal] * len(chunk_ids)
 
             o_balances = ctf_batch_contract.functions.balanceOfBatch(accounts, chunk_ids).call(block_identifier=last_block)
+
+            if len(o_balances) != len(chunk_ids):
+                raise ValueError(f"Ответ ноды не полный: {len(o_balances)} из {len(chunk_ids)}")
 
             for item, o in zip(chunk, o_balances):
                 checked += 1

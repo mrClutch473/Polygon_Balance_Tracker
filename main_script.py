@@ -162,8 +162,9 @@ async def save_logs(logs: list, config: Config, end):
 
         if progress:
             progress.last_scanned_block = end
+            progress.contracts_hash = config.get_contracts_hash()
         else:
-            session.add(Progress(contract_address=config.my_wallet, last_scanned_block=end))
+            session.add(Progress(contract_address=config.my_wallet, last_scanned_block=end, contracts_hash=config.get_contracts_hash()))
 
         await session.commit()
         
@@ -196,7 +197,12 @@ async def main():
         )
         progress = result.scalar_one_or_none()
 
+    cur_hash = config.get_contracts_hash()
+
     if progress is None:
+        current = config.start_block
+    elif progress.contracts_hash != cur_hash:
+        print("Изменились контракты, повторное сканирование")
         current = config.start_block
     else:
         current = progress.last_scanned_block + 1

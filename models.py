@@ -36,3 +36,4 @@ class Progress(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     contract_address: Mapped[str] = mapped_column(String(42), nullable=False, unique=True)
     last_scanned_block: Mapped[int] = mapped_column(BigInteger, nullable=False, default=0)
+    contracts_hash: Mapped[str] = mapped_column(String(64), nullable=True)

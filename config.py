@@ -1,7 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-
+import hashlib
 
 class Config():
 
@@ -89,3 +89,8 @@ class Config():
 
     def get_wallet_topic(self) -> str:
         return '0x' + self.my_wallet[2:].zfill(64)
+
+    def get_contracts_hash(self) -> str:
+        contracts_raw = [self.usdc, self.ctf]
+        contracts_str = ''.join(sorted(contracts_raw))
+        return hashlib.sha256(contracts_str.encode()).hexdigest()

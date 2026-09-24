@@ -61,8 +61,7 @@ async def main():
         balance_c_sorted = []
 
         for c in balance_by_ctf:
-            if c['net_balance'] != 0:
-                balance_c_sorted.append(c)
+            balance_c_sorted.append(c)
         print('='*50)
         print("Итоговый баланс:")
         print(f"USDC: {balance_by_usdc}")
