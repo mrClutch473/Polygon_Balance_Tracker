@@ -6,6 +6,8 @@ from db import async_session
 
 from web3 import Web3
 
+import sys
+
 async def main():
     config = Config()
 
@@ -114,10 +116,15 @@ async def main():
         print('Проверка баланаса закончена')
         if usdc_errors == 0 and ctf_errors == 0:
             print("Баланс совпал")
+            print(f"USDC ошибки: {usdc_errors}")
+            print(f"CTF ошибки: {ctf_errors}")
+            sys.exit(0)
         else:
             print("Баланс не совпал")
-        print(f"USDC ошибки: {usdc_errors}")
-        print(f"CTF ошибки: {ctf_errors}")
+            print(f"USDC ошибки: {usdc_errors}")
+            print(f"CTF ошибки: {ctf_errors}")
+            sys.exit(1)
+        
 
 if __name__ == "__main__":
     asyncio.run(main())
